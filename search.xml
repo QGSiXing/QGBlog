@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="utf-8"?>
+<search> 
+  
+    
+    <entry>
+      <title>安卓打包</title>
+      <link href="/%E5%AE%89%E5%8D%93%E6%89%93%E5%8C%85/"/>
+      <url>/%E5%AE%89%E5%8D%93%E6%89%93%E5%8C%85/</url>
+      
+        <content type="html"><![CDATA[<h2 id="安装微信插件"><a href="#安装微信插件" class="headerlink" title="安装微信插件"></a>安装微信插件</h2><h5 id="注：目前使用是2-3-0版本"><a href="#注：目前使用是2-3-0版本" class="headerlink" title="注：目前使用是2.3.0版本"></a>注：目前使用是2.3.0版本</h5><figure class="highlight routeros"><table><tr><td class="code"><pre><span class="line">cordova plugin <span class="builtin-name">add</span> cordova-plugin-wechat --variable <span class="attribute">wechatappid</span>=YOUR_WECHAT_APPID</span><br></pre></td></tr></table></figure><h3 id="打包须知！"><a href="#打包须知！" class="headerlink" title="打包须知！"></a>打包须知！</h3><a id="more"></a><h6 id="需在platforms-build-gradle文件后加上这个版本限制"><a href="#需在platforms-build-gradle文件后加上这个版本限制" class="headerlink" title="需在platforms/build.gradle文件后加上这个版本限制"></a>需在platforms/build.gradle文件后加上这个版本限制</h6><figure class="highlight nsis"><table><tr><td class="code"><pre><span class="line">configurations.<span class="literal">all</span> &#123;</span><br><span class="line">resolutionStrategy &#123;</span><br><span class="line">    <span class="literal">force</span> <span class="string">'com.android.support:support-v4:27.1.0'</span></span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure><h2 id="打包"><a href="#打包" class="headerlink" title="打包"></a>打包</h2><figure class="highlight armasm"><table><tr><td class="code"><pre><span class="line"><span class="symbol">cordova</span> <span class="keyword">build </span><span class="keyword">android </span>--release</span><br></pre></td></tr></table></figure><h2 id="签名"><a href="#签名" class="headerlink" title="签名"></a>签名</h2><figure class="highlight mipsasm"><table><tr><td class="code"><pre><span class="line"><span class="keyword">jarsigner </span>-verbose -sigalg <span class="keyword">SHA1withRSA </span>-<span class="keyword">digestalg </span><span class="keyword">SHA1 </span>-keystore hengan.keystore <span class="keyword">android-release-unsigned.apk </span>hengan</span><br></pre></td></tr></table></figure><h2 id="安装包上传到各台服务器"><a href="#安装包上传到各台服务器" class="headerlink" title="安装包上传到各台服务器"></a>安装包上传到各台服务器</h2><figure class="highlight x86asm"><table><tr><td class="code"><pre><span class="line"><span class="number">1</span>. 修改文件名称 </span><br><span class="line">    买家版：o2o.apk</span><br><span class="line">    卖家版：shop.apk</span><br><span class="line"><span class="number">2</span>.  上传到堡垒机 <span class="number">39.108</span><span class="meta">.105</span><span class="meta">.239</span> </span><br><span class="line">    /home/twdw  目录下</span><br><span class="line"><span class="number">3</span>.  </span><br><span class="line">    <span class="number">172.18</span><span class="meta">.222</span><span class="meta">.46</span></span><br><span class="line"><span class="number">172.18</span><span class="meta">.222</span><span class="meta">.47</span></span><br><span class="line"></span><br><span class="line">    首先，登录<span class="number">39.108</span><span class="meta">.105</span><span class="meta">.239</span> 删除原先文件</span><br><span class="line">ssh twdw@<span class="number">172.18</span><span class="meta">.222</span><span class="meta">.46</span></span><br><span class="line">sudo rm -rf *.apk</span><br><span class="line">cd /etc/nginx/html</span><br><span class="line">sudo rm -rf *.apk</span><br><span class="line">然后，从堡垒机<span class="number">39.108</span><span class="meta">.105</span><span class="meta">.239</span>拷贝新文件过来，切换到<span class="number">39.108</span><span class="meta">.105</span><span class="meta">.239</span> ，执行</span><br><span class="line">scp *.apk twdw@<span class="number">172.18</span><span class="meta">.222</span><span class="meta">.46</span>:/home/twdw/</span><br><span class="line">ssh twdw@<span class="number">172.18</span><span class="meta">.222</span><span class="meta">.46</span></span><br><span class="line">mv *.apk /etc/nginx/html</span><br><span class="line">    </span><br><span class="line">    这样，一台服务器上的操作就完成了，在其它服务器上重复以上操作就OK了。</span><br></pre></td></tr></table></figure><h2 id="上传到46-47服务器命令"><a href="#上传到46-47服务器命令" class="headerlink" title="上传到46,47服务器命令"></a>上传到46,47服务器命令</h2><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="comment">// 46</span></span><br><span class="line">scp *<span class="selector-class">.apk</span> twdw@<span class="number">172.18</span>.<span class="number">222.46</span>:/home/twdw/</span><br><span class="line">ssh twdw@<span class="number">172.18</span>.<span class="number">222.46</span></span><br><span class="line">sudo mv *<span class="selector-class">.apk</span> /etc/nginx/html</span><br><span class="line">exit</span><br><span class="line"></span><br><span class="line"><span class="comment">//47</span></span><br><span class="line">scp *<span class="selector-class">.apk</span> twdw@<span class="number">172.18</span>.<span class="number">222.47</span>:/home/twdw/</span><br><span class="line">ssh twdw@<span class="number">172.18</span>.<span class="number">222.47</span></span><br><span class="line">sudo mv *<span class="selector-class">.apk</span> /etc/nginx/html</span><br></pre></td></tr></table></figure><p><img src="https://img-blog.csdn.net/20170830134120513?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbnVsXzA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片星空" title="天地通快凉透"></p><hr>]]></content>
+      
+      
+      <categories>
+          
+          <category> 天地通 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 环境配置 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>天地通打包环境配置</title>
+      <link href="/%E5%A4%A9%E5%9C%B0%E9%80%9A%E6%89%93%E5%8C%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/"/>
+      <url>/%E5%A4%A9%E5%9C%B0%E9%80%9A%E6%89%93%E5%8C%85%E7%8E%AF%E5%A2%83%E9%85%8D%E7%BD%AE/</url>
+      
+        <content type="html"><![CDATA[<h2 id="门店APP-amp-经销商APP-打包流程"><a href="#门店APP-amp-经销商APP-打包流程" class="headerlink" title="门店APP &amp; 经销商APP 打包流程"></a>门店APP &amp; 经销商APP 打包流程</h2><h6 id="注：打包前提本地已安装并配置环境-gradle-android-sdk。自行百度安装这边不扩展"><a href="#注：打包前提本地已安装并配置环境-gradle-android-sdk。自行百度安装这边不扩展" class="headerlink" title="==注：打包前提本地已安装并配置环境 gradle,android-sdk。自行百度安装这边不扩展=="></a>==注：打包前提本地已安装并配置环境 gradle,android-sdk。自行百度安装这边不扩展==</h6><h3 id="一、打包门店app"><a href="#一、打包门店app" class="headerlink" title="一、打包门店app"></a>一、打包门店app</h3><h5 id="1-环境搭建"><a href="#1-环境搭建" class="headerlink" title="1.  环境搭建"></a>1.  环境搭建</h5><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//安卓环境6.4.0,不建议升级，可能会不兼容</span></span><br><span class="line">cordova platform add android@<span class="number">6.4</span><span class="number">.0</span></span><br></pre></td></tr></table></figure><a id="more"></a><h5 id="2-添加版本控制"><a href="#2-添加版本控制" class="headerlink" title="2.  添加版本控制"></a>2.  添加版本控制</h5><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//需在platforms/build.gradle文件最后加上这个版本限制</span></span><br><span class="line">configurations.all &#123;</span><br><span class="line">resolutionStrategy &#123;</span><br><span class="line">    force <span class="string">'com.android.support:support-v4:27.1.0'</span></span><br><span class="line">&#125;&#125;</span><br></pre></td></tr></table></figure><h5 id="3-微信插件安装-当前版本2-3-0"><a href="#3-微信插件安装-当前版本2-3-0" class="headerlink" title="3.  微信插件安装(当前版本2.3.0)"></a>3.  微信插件安装(当前版本2.3.0)</h5><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//添加微信插件</span></span><br><span class="line">cordova plugin add cordova-plugin-wechat --variable wechatappid=YOUR_WECHAT_APPID</span><br></pre></td></tr></table></figure><h5 id="4-打包签名"><a href="#4-打包签名" class="headerlink" title="4.  打包签名"></a>4.  打包签名</h5><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="comment">//打包</span></span><br><span class="line">cordova build android --release</span><br><span class="line"><span class="comment">//签名</span></span><br><span class="line">jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore hengan<span class="selector-class">.keystore</span> android-release-unsigned<span class="selector-class">.apk</span> hengan</span><br></pre></td></tr></table></figure><hr><h3 id="二、打包经销商app"><a href="#二、打包经销商app" class="headerlink" title="二、打包经销商app"></a>二、打包经销商app</h3><h5 id="1-环境搭建-1"><a href="#1-环境搭建-1" class="headerlink" title="1.  环境搭建"></a>1.  环境搭建</h5><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//添加安卓环境</span></span><br><span class="line">cordova platform add android@<span class="number">6.4</span><span class="number">.0</span></span><br><span class="line"></span><br><span class="line"><span class="comment">//添加蓝牙权限，在platforms/android/AndroidManifest.xml</span></span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.BLUETOOTH_ADMIN"</span> /&gt;</span><br><span class="line">&lt;uses-permission android:name=<span class="string">"android.permission.BLUETOOTH"</span> /&gt;</span><br><span class="line"></span><br><span class="line"><span class="string">``</span><span class="string">` </span></span><br><span class="line"><span class="string">##### 2. 打印插件重新添加</span></span><br><span class="line"><span class="string">`</span><span class="string">``</span>js</span><br><span class="line"><span class="comment">//卸载</span></span><br><span class="line">cordova plugin rm cordova-plugin-xprinter</span><br><span class="line"><span class="comment">//添加</span></span><br><span class="line">cordova plugin add https:<span class="comment">//github.com/percyluan/cordova-plugin-xprinter</span></span><br></pre></td></tr></table></figure><h5 id="3-微信插件安装-当前版本2-3-0-1"><a href="#3-微信插件安装-当前版本2-3-0-1" class="headerlink" title="3.  微信插件安装(当前版本2.3.0)"></a>3.  微信插件安装(当前版本2.3.0)</h5><figure class="highlight js"><table><tr><td class="code"><pre><span class="line"><span class="comment">//添加微信插件</span></span><br><span class="line">cordova plugin add cordova-plugin-wechat --variable wechatappid=YOUR_WECHAT_APPID</span><br></pre></td></tr></table></figure><h5 id="4-打包签名-1"><a href="#4-打包签名-1" class="headerlink" title="4.  打包签名"></a>4.  打包签名</h5><figure class="highlight stylus"><table><tr><td class="code"><pre><span class="line"><span class="comment">//打包</span></span><br><span class="line">cordova build android --release</span><br><span class="line"><span class="comment">//签名</span></span><br><span class="line">jarsigner -verbose -sigalg SHA1withRSA -digestalg SHA1 -keystore hengan<span class="selector-class">.keystore</span> android-release-unsigned<span class="selector-class">.apk</span> hengan</span><br></pre></td></tr></table></figure><p><img src="https://img-blog.csdn.net/20170830134120513?watermark/2/text/aHR0cDovL2Jsb2cuY3Nkbi5uZXQvbnVsXzA=/font/5a6L5L2T/fontsize/400/fill/I0JBQkFCMA==/dissolve/70/gravity/SouthEast" alt="图片星空" title="天地通快凉透"></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> 天地通 </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 环境配置 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    <entry>
+      <title>Hexo Demo</title>
+      <link href="/hello-world/"/>
+      <url>/hello-world/</url>
+      
+        <content type="html"><![CDATA[<p>Welcome to <a href="https://hexo.io/" target="_blank" rel="noopener">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="noopener">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="noopener">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="noopener">GitHub</a>.</p><h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><a id="more"></a><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo new <span class="string">"My New Post"</span></span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="noopener">Writing</a></p><h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo server</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="noopener">Server</a></p><h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo generate</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="noopener">Generating</a></p><h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">$ hexo deploy</span><br></pre></td></tr></table></figure><p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="noopener">Deployment</a></p>]]></content>
+      
+      
+      <categories>
+          
+          <category> Hexo </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> demo </tag>
+            
+        </tags>
+      
+    </entry>
+    
+  
+  
+</search>
